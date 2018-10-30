@@ -22,6 +22,8 @@ buildscript {
 
 allprojects {
     repositories {
+        maven { url "https://jitpack.io" }
+        maven { url "https://maven.google.com" }      
         google()
         mavenLocal()
         jcenter()
@@ -31,7 +33,6 @@ allprojects {
         }
     }
 }
-
 
 task wrapper(type: Wrapper) {
     gradleVersion = '4.4'
