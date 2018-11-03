@@ -1,11 +1,20 @@
+require('module-alias/register');
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+const userRepository = require('@repositories/user-repository');
+const UserService = require('@services/user-service');
+const notificationService = require('@services/notification-service');
+
+const userService = new UserService(userRepository);
+const userStreamingService = new UserStreamingService(userRepository);
+
+var indexRouter = require('@routes/index');
+var usersRouter = require('@routes/users');
 
 var app = express();
 
@@ -37,5 +46,8 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+const server = app.listen(8080);
+notificationService(server);
 
 module.exports = app;

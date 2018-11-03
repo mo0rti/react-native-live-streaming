@@ -10,7 +10,19 @@
     "debug": "~2.6.9",
     "express": "~4.16.0",
     "http-errors": "~1.6.2",
+    "md5": "^2.2.1",
+    "module-alias": "^2.1.0",
     "morgan": "~1.9.0",
-    "pug": "2.0.0-beta11"
+    "pug": "2.0.0-beta11",
+    "socket.io": "^2.1.1"
+  },
+  "_moduleAliases": {
+    "@root": ".",
+    "@routes": "./routes",
+    "@services": "./services",
+    "@views": "./views",
+    "@models": "./models",
+    "@repositories": "./repositories",
+    "@lib": "./lib"
   }
 }
