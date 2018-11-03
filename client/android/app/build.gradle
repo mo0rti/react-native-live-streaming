@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-nodemediaclient')
     compile (project(':react-native-camera')) {
         exclude group: "com.android.support"
       exclude group: "com.google.android.gms"

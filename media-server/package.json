@@ -1,0 +1,11 @@
+{
+  "name": "media-server",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "node-media-server": "1.4.3"
+  }
+}

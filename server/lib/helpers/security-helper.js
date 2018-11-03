@@ -1,4 +1,5 @@
-const md5 = require('md5');
+import md5 from 'md5';
+import  CONSTANTS from '@lib/constants';
 
 const guid = () => {
   function s4() {
@@ -9,12 +10,14 @@ const guid = () => {
   return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
 }
 
-const createToken = ({userId}) => {
-  let now = new Date();
-  return md5(`${userId}-${now}`);
+const createSign = (userId, expireDate) => {
+  //let plain = `/live/${userId}-${expireDate}-${CONSTANTS.MEDIA_SERVER_PRIVATE_KEY}`;
+  let plain = `/live/stream-${expireDate}-${CONSTANTS.MEDIA_SERVER_PRIVATE_KEY}`;
+  console.log(plain);
+  return md5(plain);
 }
 
 module.exports = {
   guid,
-  createToken
+  createSign
 }

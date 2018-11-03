@@ -20,6 +20,9 @@ const STREAMING = {
   }
 }
 
+const MEDIA_SERVER_PRIVATE_KEY = "nodemedia2017privatekey"; 
+
 export default {
-  STREAMING
+  STREAMING,
+  MEDIA_SERVER_PRIVATE_KEY
 }

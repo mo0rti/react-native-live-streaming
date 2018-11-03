@@ -25,6 +25,7 @@ class UserService {
     return {
       userId: user.id,
       userName: userName,
+      expireDate: user.expireDate,
       token: user.token
     };
   }

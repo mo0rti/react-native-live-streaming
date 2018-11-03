@@ -28,7 +28,6 @@ class UserStreamingService {
       token: user.token,
       streamingId: streamingSession.id
     };
-    console.log(CONSTANTS.STREAMING.COMMANDS.SERVER.STREAMING_STARTED, message);
     socket.broadcast.emit(CONSTANTS.STREAMING.COMMANDS.SERVER.STREAMING_STARTED, message);
   }
 

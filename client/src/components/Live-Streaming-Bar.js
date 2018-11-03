@@ -8,55 +8,14 @@ import settings from "@Constants/settings";
 class LiveStreamingBar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { streamingUsers: [] };
-    this.socket = io(`http://${settings.URL}`);
   }
 
   _onStreamingItemPressed = (item) => {
     NavigationService.navigate('Viewer', { item });
   }
 
-  _getOnlineStreams() {
-    fetch(`${settings.URL}/streaming/getStreamingUsers`)
-      .then(x => x.json())
-      .then(streamingUsers => {
-        this.setState({ streamingUsers });
-      });
-  }
-
-  componentDidMount() {
-
-    this.socket.on("EVENTS.STREAM_STARTED", (data) => {
-      console.log(data);
-
-      /*this.setState(prevState => {
-        const [...liveStreams] = prevState.liveStreams;
-        const index = liveStreams.findIndex(x => x.userId === userId);
-        if (index === -1) {
-          liveStreams.push({ userId, username, sign, expireDate });
-        }
-        return { liveStreams };
-      });*/
-    });
-
-    this.socket.on("EVENTS.STREAM_ENDED", (data) => {
-      console.log(data);
-      /*
-      this.setState(prevState => {
-        const [...liveStreams] = prevState.liveStreams;
-        const index = liveStreams.findIndex(x => x.userId === userId);
-        if (index !== -1) {
-          liveStreams.splice(index, 1);
-        }
-        return { liveStreams };
-      });*/
-    });
-
-    this._getOnlineStreams();
-  }
-
   render() {
-    let { streamingUsers } = this.state;
+    let { streamingUsers } = this.props;
     return (
       <View style={styles.container}>
         {
