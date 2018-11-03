@@ -4,15 +4,17 @@ import NavigationService from "./Navigation-Service";
 import HomeScreen from "@Screens/home";
 import PublisherScreen from "@Screens/publisher";
 import ViewerScreen from "@Screens/viewer";
+import SignInScreen from "@Screens/signin";
 
 const AppNavigator = createStackNavigator(
   {
+    SignIn: SignInScreen,
     Home: HomeScreen,
     Publisher: PublisherScreen,
     Viewer: ViewerScreen
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'SignIn',
     headerMode: 'none'
   }
 );

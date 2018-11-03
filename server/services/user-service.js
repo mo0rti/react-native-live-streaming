@@ -21,11 +21,13 @@ class UserService {
     } else {
       user = founded[0];
     }
+
     return {
-      userId: user.userId,
+      userId: user.id,
+      userName: userName,
       token: user.token
     };
   }
 }
 
-export default UserService;
+module.exports = UserService;

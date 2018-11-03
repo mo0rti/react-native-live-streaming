@@ -1,35 +1,33 @@
-import socketIo from 'socket.io';
-import userRepository from '@repositories/user-repository';
-import streamingSessionUserRepository from '../repositories/streaming-session-user-repository';
-import streamingSessionRepository from '../repositories/streaming-session-repository';
+const socketIo = require('socket.io');
 
-const NotificationService = (server) => {
+const UserStreamingService = require('@services/user-streaming-service');
+
+const NotificationService = (server, user_repo, ss_repo, ssu_repo) => {
   let io = socketIo(server);
-
-  const service = new UserStreamingService(userRepository, streamingSessionRepository, streamingSessionUserRepository, io);
+  const service = new UserStreamingService(user_repo, ss_repo, ssu_repo, io);
 
   io.on("connection", socket => {
-
-    socket.on("user_starts_streaming", userId => {
-      console.log(`userId ${userId} starts streaming. socketId: ${socket.id}`);
-      service.userStartsPublishing(userId, socket);
+    console.log("connection");
+    socket.on("user_starts_streaming", user => {
+      console.log(`userId ${user.userId} starts streaming. socketId: ${socket.id}`);
+      service.userStartsPublishing(user.userId, socket);
     });
 
-    socket.on("user_ends_streaming", userId => {
-      console.log(`userId ${userId} ends streaming. socketId: ${socket.id}`);
-      service.userEndsPublishing(userId, socket);
+    socket.on("user_ends_streaming", user => {
+      console.log(`userId ${user.userId} ends streaming. socketId: ${socket.id}`);
+      service.userEndsPublishing(user.userId, socket);
     });
 
-    socket.on("user_joins_streaming", (userId, sessionId) => {
-      console.log(`userId ${userId} leaves streaming session ${sessionId}. socketId: ${socket.id}`);
+    socket.on("user_joins_streaming", ({ userId, sessionId }) => {
+      console.log(`userId ${userId} joins streaming session ${sessionId}. socketId: ${socket.id}`);
       service.userJoinStreamingSession(userId, socket.id);
     });
 
-    socket.on("user_leaves_streaming", (userId, sessionId) => {
+    socket.on("user_leaves_streaming", ({ userId, sessionId }) => {
       console.log(`userId ${userId} leaves streaming session ${sessionId}. socketId: ${socket.id}`);
       service.userLeavesStreamingSession(userId, sessionId);
     });
   })
 }
 
-export default NotificationService;
+module.exports = NotificationService;

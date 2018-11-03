@@ -1,4 +1,4 @@
-import BaseRepository from "@lib/repositories/base-repository";
+import BaseRepository from "@repositories/base-repository";
 
 class UserRepository extends BaseRepository {
   constructor() {
@@ -6,4 +6,4 @@ class UserRepository extends BaseRepository {
   }
 }
 
-export default UserRepository;
+module.exports = UserRepository;

@@ -1,10 +1,11 @@
 import React from "react";
 import { View, Text, TouchableOpacity } from "react-native";
+import LiveStreamingBar from "@Components/Live-Streaming-Bar";
 import styles from "./style";
 
-const Content = ({ gotoLive }) =>
+const Content = ({ gotoLive, user }) =>
   <View style={styles.container}>
-    <View style={styles.livebar}></View>
+    <LiveStreamingBar user={user} />
     <View style={styles.content}>
       <Text style={styles.title}>Welcome to live streaming{"\n"}If you want to go live press the below button</Text>
     </View>

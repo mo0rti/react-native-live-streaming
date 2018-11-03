@@ -14,7 +14,7 @@ const createToken = ({userId}) => {
   return md5(`${userId}-${now}`);
 }
 
-export default {
+module.exports = {
   guid,
   createToken
 }

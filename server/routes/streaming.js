@@ -3,13 +3,13 @@ var router = express.Router();
 
 const StreamingRouter = (userStreamingService) => {
 
-  router.get('/getStreamingUser', function (req, res) {
-    const r = userStreamingService.getStreamingUser();
+  router.get('/getStreamingUsers', function (req, res) {
+    const r = userStreamingService.getStreamingUsers();
     return res.json(r);
   });
 
-  router.get('/getViewingUser', function (req, res) {
-    const r = userStreamingService.getViewingUser(req.params.sessionId);
+  router.get('/getViewingUsers', function (req, res) {
+    const r = userStreamingService.getViewingUsers(req.params.sessionId);
     return res.json(r);
   });
 

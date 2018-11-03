@@ -1,6 +1,6 @@
 import StreamingSession from "@models/streaming-session";
 import StreamingSessionUser from "@models/streaming-session-user";
-import { STREAMING } from "@lib/constants";
+import CONSTANTS from "@lib/constants";
 import ServiceException from "@lib/exceptions/service-exception";
 
 class UserStreamingService {
@@ -13,7 +13,7 @@ class UserStreamingService {
 
   userStartsPublishing(userId, socket) {
     let streamingSession = this.streamingSessionRepository.query(t => t.ownerId == userId);
-    if (streamingSession) {
+    if (streamingSession.length != 0) {
       throw new ServiceException("User aleady publishing");
     }
 
@@ -22,13 +22,14 @@ class UserStreamingService {
     streamingSession = new StreamingSession(userId, socket.id);
     this.streamingSessionRepository.add(streamingSession);
 
-    socket.broadcast.emit(
-      STREAMING.COMMANDS.STREAMING_STARTED,
-      {
-        userId: user.id,
-        userName: user.userName,
-        token: user.token
-      });
+    let message = {
+      userId: user.id,
+      userName: user.userName,
+      token: user.token,
+      streamingId: streamingSession.id
+    };
+    console.log(CONSTANTS.STREAMING.COMMANDS.SERVER.STREAMING_STARTED, message);
+    socket.broadcast.emit(CONSTANTS.STREAMING.COMMANDS.SERVER.STREAMING_STARTED, message);
   }
 
   userEndsPublishing(userId, socket) {
@@ -40,7 +41,7 @@ class UserStreamingService {
     this.streamingSessionRepository.remove(streamingSession.id);
 
     socket.broadcast.emit(
-      STREAMING.COMMANDS.STREAMING_ENDED,
+      CONSTANTS.STREAMING.COMMANDS.SERVER.STREAMING_ENDED,
       {
         userId: userId
       });
@@ -52,22 +53,22 @@ class UserStreamingService {
     if (!ssu) {
       let streamingSessionUser = new StreamingSessionUser(userId, sessionId);
       this.streamingSessionUserRepository.add(streamingSessionUser);
-      this.io.to(sessionId).emit(STREAMING.COMMANDS.JOIN_TO_STREAMING, { userId, username: user.username });
+      this.io.to(sessionId).emit(CONSTANTS.STREAMING.COMMANDS.SERVER.JOIN_TO_STREAMING, { userId, username: user.username });
     }
   }
 
   userLeavesStreamingSession(userId, sessionId) {
     this.streamingSessionUserRepository.removeUserFromSession(userId, sessionId);
-    this.io.to(sessionId).emit(STREAMING.COMMANDS.LEAVE_THE_STREAMING, { userId });
+    this.io.to(sessionId).emit(CONSTANTS.STREAMING.COMMANDS.SERVER.LEAVE_THE_STREAMING, { userId });
   }
 
-  getStreamingUser() {
-    return this.streamingSessionRepository.get();
+  getStreamingUsers() {
+    return this.streamingSessionRepository.getStreamingUsers();
   }
 
-  getViewingUser(sessionId) {
+  getViewingUsers(sessionId) {
     return this.streamingSessionUserRepository.query(t => t.sessionId == sessionId);
   }
 }
 
-export default UserStreamingService;
+module.exports = UserStreamingService;

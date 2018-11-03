@@ -1,14 +1,15 @@
-import BaseRepository from "@lib/repositories/base-repository";
+import BaseRepository from "@repositories/base-repository";
 import DbException from "@lib/exceptions/db-exception";
 
 class StreamingSessionRepository extends BaseRepository {
-  constructor() {
+  constructor(userRepository) {
     super();
+    this.userRepository = userRepository;
   }
 
   findStreamingSessionByOwnerId(ownerId) {
-    let filtered = this.query(t => t.ownerId == ownerId);
-    if (filtered.length >= 1)
+    let filtered = super.query(t => t.ownerId == ownerId);
+    if (filtered.length > 1)
       throw new DbException("More than one user with the same user id exists in the streaming line");
 
     if (filtered.length != 0)
@@ -16,6 +17,18 @@ class StreamingSessionRepository extends BaseRepository {
 
     return null;
   }
+
+  getStreamingUsers() {
+    let streamingSessions = super.get();
+    return streamingSessions.map(t => {
+      let user = userRepository.get(t.ownerId);
+      return {
+        ...t,
+        userName: user.userName,
+        token: user.token
+      }
+    });
+  }
 }
 
-export default StreamingSessionRepository;
+module.exports = StreamingSessionRepository;
