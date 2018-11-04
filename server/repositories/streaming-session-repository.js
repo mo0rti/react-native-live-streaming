@@ -23,7 +23,8 @@ class StreamingSessionRepository extends BaseRepository {
     return streamingSessions.map(t => {
       let user = this.userRepository.get(t.ownerId);
       return {
-        ...t,
+        sessionId: t.id,
+        ownerId: t.ownerId,
         userName: user.userName,
         token: user.token
       }

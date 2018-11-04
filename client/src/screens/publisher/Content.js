@@ -1,29 +1,88 @@
 import React, { Component } from "react";
-import { View, Button } from "react-native";
+import { View, Button, Text, TouchableOpacity } from "react-native";
 import { NodeCameraView } from 'react-native-nodemediaclient';
+import { RNCamera } from "react-native-camera";
+import IconText from "@Components/Icon-Text";
 import styles from "./style";
 
-const Content = ({ url, setCameraRef, toggleActionCamera, isPublishing }) =>
+const Content = ({ url, setCameraRef, cameraType, mirrorMode, toggleActionCamera, isPublishing, viewerCount }) =>
   <View style={styles.container}>
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1, height: 50 }}>
-      </View>
-      <NodeCameraView
-        style={{ flex: 1 }}
-        ref={setCameraRef}
-        outputUrl={url}
-        camera={{ cameraId: 1, cameraFrontMirror: true }}
-        audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
-        video={{ preset: 12, bitrate: 400000, profile: 1, fps: 15, videoFrontMirror: false }}
-        autopreview={true}
-      />
+    <RNCamera
+      style={styles.camera}
+      ref={setCameraRef}
+      type={cameraType}
+      mirrorImage={mirrorMode}
+    />
 
-      <Button
-        onPress={toggleActionCamera}
-        title={(isPublishing) ? 'Stop Publish' : 'Start Publish'}
-        color="#841584"
-      />
+    <View style={{
+      flex: 1, position: 'absolute', width: '100%',
+      left: 0,
+      top: 0,
+      backgroundColor: 'transparent',
+      height: "20%"
+    }}
+    >
+      <View style={{ flex: 0.4, flexDirection: 'row' }}>
+        <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity style={{ backgroundColor: 'white', height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+            <IconText
+              iconName="controller-stop"
+              title="Stop"
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: 'red', width: "80%", height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+            <Text style={{ color: 'white' }}>ON AIR</Text>
+          </View>
+        </View>
+        <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
+          <View style={{ backgroundColor: 'black', height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+            <IconText
+              iconName="eye"
+              textColor="white"
+              title={viewerCount}
+              size={20}
+            />
+          </View>
+        </View>
+      </View>
+
+      <View style={{ flex: 0.6, flexDirection: 'row' }}>
+        <View style={{ flex: 1, backgroundColor: 'skyblue' }} />
+        <View style={{ flex: 1, backgroundColor: 'steelblue' }} />
+        <View style={{ flex: 1, backgroundColor: 'powderblue' }} />
+      </View>
+
     </View>
+
+    <View style={{
+      flex: 1, position: 'absolute', width: '100%',
+      left: 0,
+      bottom: 0,
+      opacity: 0.5,
+      height: '40%', flexDirection: 'row'
+    }}
+    >
+      <View style={{ flex: 0.6, backgroundColor: 'powderblue' }}>
+
+      </View>
+      <View style={{ flex: 0.4, backgroundColor: 'skyblue' }}>
+      </View>
+    </View>
+
+
+
+    {/*     <NodeCameraView
+      style={styles.camera}
+      ref={setCameraRef}
+      outputUrl={url}
+      camera={{ cameraId: 1, cameraFrontMirror: true }}
+      audio={{ bitrate: 32000, profile: 1, samplerate: 44100 }}
+      video={{ preset: 12, bitrate: 400000, profile: 1, fps: 15, videoFrontMirror: false }}
+      autopreview={true}
+    />
+ */}
   </View>
 
 export default Content;

@@ -11,7 +11,7 @@ class SignInScreen extends Component {
   }
 
   _signin = () => {
-    fetch(`${settings.URL}/users/signin`, {
+    fetch(`http://${settings.URL}:${settings.PORT}/users/signin`, {
       method: 'post',
       headers: {
         'Accept': 'application/json',

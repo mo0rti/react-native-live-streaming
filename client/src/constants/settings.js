@@ -1,5 +1,7 @@
-const URL = "http://192.168.1.14:4000";
+const URL = "192.168.1.14";
+const PORT = "4000";
 
 export default {
-  URL
+  URL,
+  PORT
 }

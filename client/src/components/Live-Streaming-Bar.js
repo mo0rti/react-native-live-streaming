@@ -1,17 +1,18 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import io from 'socket.io-client';
 import LiveStreamingItem from "./Live-Streaming-Item";
+import LiveStreamingManager from "@Components/Live-Streaming-Manager";
 import NavigationService from "@Navigations/Navigation-Service";
-import settings from "@Constants/settings";
 
 class LiveStreamingBar extends React.Component {
   constructor(props) {
     super(props);
+    this.socket = LiveStreamingManager.getSocket();
   }
 
-  _onStreamingItemPressed = (item) => {
-    NavigationService.navigate('Viewer', { item });
+  _onStreamingUserPress = (streamingUser) => {
+    this.socket.emit("user_joins_streaming", { userId: this.props.user.userId, sessionId: streamingUser.sessionId });
+    NavigationService.navigate('Viewer', { user: this.props.user, streamingUser });
   }
 
   render() {
@@ -19,7 +20,7 @@ class LiveStreamingBar extends React.Component {
     return (
       <View style={styles.container}>
         {
-          streamingUsers.map(item => <LiveStreamingItem streamingItem={item} onStreamingItemPressed={this._onStreamingItemPressed} />)
+          streamingUsers.map(item => <LiveStreamingItem streamingUser={item} onStreamingUserPress={this._onStreamingUserPress} />)
         }
       </View>
     );

@@ -13,7 +13,8 @@ class HomeScreen extends Component {
       user: this.props.navigation.state.params.user,
       streamingUsers: []
     };
-    this.socket = SocketIOClient("http://192.168.1.14:4000");
+    let url = `http://${settings.URL}:${settings.PORT}`;
+    this.socket = SocketIOClient(url);
     LiveStreamingManager.setSocket(this.socket);
   }
 
@@ -26,7 +27,7 @@ class HomeScreen extends Component {
   }
 
   _getOnlineStreams() {
-    fetch(`${settings.URL}/streaming/getStreamingUsers`)
+    fetch(`http://${settings.URL}:${settings.PORT}/streaming/getStreamingUsers`)
       .then(x => x.json())
       .then(streamingUsers => {
         this.setState({ streamingUsers });

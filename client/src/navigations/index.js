@@ -14,7 +14,7 @@ const AppNavigator = createStackNavigator(
     Viewer: ViewerScreen
   },
   {
-    initialRouteName: 'SignIn',
+    initialRouteName: 'Publisher',
     headerMode: 'none'
   }
 );

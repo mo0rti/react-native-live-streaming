@@ -1,10 +1,10 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, Text, View } from 'react-native';
 
-const LiveStreamingItem = ({ streamingItem, onStreamingItemPressed }) =>
-  <TouchableOpacity onPress={() => onStreamingItemPressed(streamingItem)}>
+const LiveStreamingItem = ({ streamingUser, onStreamingUserPress }) =>
+  <TouchableOpacity onPress={() => onStreamingUserPress(streamingUser)}>
     <View style={styles.button}>
-      <Text>{streamingItem.username}</Text>
+      <Text>{streamingUser.userName}</Text>
     </View>
   </TouchableOpacity>
 

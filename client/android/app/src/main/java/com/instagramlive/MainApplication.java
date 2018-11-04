@@ -5,6 +5,7 @@ import android.app.Application;
 import com.facebook.react.ReactApplication;
 import cn.nodemedia.react_native_nodemediaclient.NodeMediaReactPackage;
 import org.reactnative.camera.RNCameraPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -26,7 +27,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new NodeMediaReactPackage(),
-            new RNCameraPackage()
+            new RNCameraPackage(),
+            new VectorIconsPackage()
       );
     }
 

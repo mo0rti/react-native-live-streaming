@@ -7,7 +7,7 @@ const Content = ({ setCameraRef, url }) =>
   <View style={styles.container}>
     <Text>Viewing ...</Text>
     <NodePlayerView
-      style={{ flex: 1 }}
+      style={styles.player}
       ref={setCameraRef}
       inputUrl={url}
       scaleMode={"ScaleAspectFill"}
