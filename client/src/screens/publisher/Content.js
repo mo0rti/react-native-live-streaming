@@ -3,9 +3,12 @@ import { View, Button, Text, TouchableOpacity } from "react-native";
 import { NodeCameraView } from 'react-native-nodemediaclient';
 import { RNCamera } from "react-native-camera";
 import IconText from "@Components/Icon-Text";
+import Like from "@Components/Like";
 import styles from "./style";
 
-const Content = ({ url, setCameraRef, cameraType, mirrorMode, toggleActionCamera, isPublishing, viewerCount }) =>
+const renderLikes = (likes, parentViewDimension) => likes.map((t, index) => <Like key={index} parentViewDimension={parentViewDimension} />);
+
+const Content = ({ url, setCameraRef, cameraType, mirrorMode, toggleActionCamera, isPublishing, viewerCount, likes, onLikePanelLayout, likePanelDimension }) =>
   <View style={styles.container}>
     <RNCamera
       style={styles.camera}
@@ -24,7 +27,7 @@ const Content = ({ url, setCameraRef, cameraType, mirrorMode, toggleActionCamera
     >
       <View style={{ flex: 0.4, flexDirection: 'row' }}>
         <View style={{ flex: 1, backgroundColor: 'transparent', justifyContent: 'center', alignItems: 'center' }}>
-          <TouchableOpacity style={{ backgroundColor: 'white', height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }}>
+          <TouchableOpacity style={{ backgroundColor: 'white', height: 40, borderRadius: 20, justifyContent: 'center', alignItems: 'center' }} onPress={toggleActionCamera}>
             <IconText
               iconName="controller-stop"
               title="Stop"
@@ -64,14 +67,13 @@ const Content = ({ url, setCameraRef, cameraType, mirrorMode, toggleActionCamera
       height: '40%', flexDirection: 'row'
     }}
     >
-      <View style={{ flex: 0.6, backgroundColor: 'powderblue' }}>
+      <View style={{ flex: 1, backgroundColor: 'powderblue' }}>
 
       </View>
-      <View style={{ flex: 0.4, backgroundColor: 'skyblue' }}>
+      <View style={{ width: 100, height: '100%', backgroundColor: 'skyblue', flexDirection: 'column-reverse', alignItems: 'center' }} onLayout={onLikePanelLayout}>
+        {renderLikes(likes, likePanelDimension)}
       </View>
     </View>
-
-
 
     {/*     <NodeCameraView
       style={styles.camera}

@@ -11,7 +11,9 @@ class PublisherScreen extends Component {
     this.state = {
       cameraType: 'front',
       mirrorMode: true,
-      viewerCount: 43
+      viewerCount: 43,
+      likePanelDimension: { width: undefined, height: undefined },
+      likes: [{ id: 1 }]
     };
     /*
     this.state = {
@@ -44,6 +46,7 @@ class PublisherScreen extends Component {
   }
 
   componentDidMount() {
+    //this._generateLikes();
     //this.vb.start();
   }
 
@@ -52,6 +55,23 @@ class PublisherScreen extends Component {
       this.vb.stop();
       this.socket.emit("user_ends_streaming", { userId: this.state.user.userId });
     }
+  }
+
+  _generateLikes = () => {
+    let { likes } = this.state;
+    setInterval(() => {
+      likes.push({
+        id: 1
+      });
+
+      this.setState({ likes });
+    }, 1000);
+  }
+
+  _onLikePanelLayout = (event) => {
+    if (this.state.likePanelDimension.width) return;
+    let { width, height } = event.nativeEvent.layout
+    this.setState({ likePanelDimension: { width, height } })
   }
 
   render() {
@@ -66,9 +86,14 @@ class PublisherScreen extends Component {
         toggleActionCamera={this._toggleActionCamera}
       />
     );*/
-    let { cameraType, viewerCount, mirrorMode } = this.state;
+    let { cameraType, viewerCount, mirrorMode, likes, likePanelDimension } = this.state;
+
+    console.log(likes);
     return (
       <Content
+        onLikePanelLayout={this._onLikePanelLayout}
+        likePanelDimension={likePanelDimension}
+        likes={likes}
         cameraType={cameraType}
         mirrorMode={mirrorMode}
         viewerCount={viewerCount}
